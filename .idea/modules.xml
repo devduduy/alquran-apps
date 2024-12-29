@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/alquran_apps.iml" filepath="$PROJECT_DIR$/alquran_apps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/alquran_apps_android.iml" filepath="$PROJECT_DIR$/android/alquran_apps_android.iml" />
+    </modules>
+  </component>
+</project>
