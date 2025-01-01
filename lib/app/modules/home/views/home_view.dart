@@ -1,4 +1,5 @@
 import 'package:alquran_apps/app/constant/color.dart';
+import 'package:alquran_apps/app/data/models/juz.dart' as juz;
 import 'package:alquran_apps/app/data/models/surah.dart';
 import 'package:alquran_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -286,35 +287,100 @@ class HomeView extends GetView<HomeController> {
                               surah.name.short,
                               style: TextStyle(fontSize: 18),
                             ),
+                            isThreeLine: true,
                           );
                         });
                   },
                 ),
-                ListView.builder(
-                    padding: EdgeInsets.only(top: 20),
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () {},
-                        leading: Obx(() => Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(controller.isDark.isTrue
-                                          ? 'assets/images/octagonal_for_dark.png'
-                                          : 'assets/images/octagonal.png'))),
-                              child: Center(
-                                  child: Text(
-                                '${index + 1}',
-                              )),
-                            )),
-                        title: Text(
-                          'Juz ${index + 1}',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
+                FutureBuilder(
+                  future: controller.getAllJuz(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
                       );
-                    }),
+                    }
+                    if (!snapshot.hasData) {
+                      return Center(child: Text('Data tidak ditemukan.'));
+                    }
+
+                    return ListView.builder(
+                      padding: EdgeInsets.only(top: 20),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        juz.Juz detailJuz = snapshot.data![index];
+
+                        String surahStart =
+                            detailJuz.juzStartInfo?.split(" - ").first ?? "";
+                        String surahEnd =
+                            detailJuz.juzEndInfo?.split(" - ").first ?? "";
+
+                        List<Surah> allSurahInJuzTemp = [];
+                        List<Surah> allSurahInJuz = [];
+
+                        for (Surah item in controller.allSurah) {
+                          allSurahInJuzTemp.add(item);
+
+                          if (item.name.transliteration.id == surahEnd) {
+                            break;
+                          }
+                        }
+
+                        for (Surah item
+                            in allSurahInJuzTemp.reversed.toList()) {
+                          allSurahInJuz.add(item);
+
+                          if (item.name.transliteration.id == surahStart) {
+                            break;
+                          }
+                        }
+
+                        return ListTile(
+                          onTap: () {
+                            Get.toNamed(Routes.DETAIL_JUZ, arguments: {
+                              "juz": detailJuz,
+                              "surah": allSurahInJuz.reversed.toList()
+                            });
+                          },
+                          leading: Obx(() => Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(controller
+                                                .isDark.isTrue
+                                            ? 'assets/images/octagonal_for_dark.png'
+                                            : 'assets/images/octagonal.png'))),
+                                child: Center(
+                                    child: Text(
+                                  '${index + 1}',
+                                )),
+                              )),
+                          title: Text(
+                            'Juz ${index + 1}',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Mulai dari ${detailJuz.juzStartInfo}",
+                                style: TextStyle(color: Colors.grey[500]),
+                              ),
+                              Text(
+                                "Sampai ${detailJuz.juzEndInfo}",
+                                style: TextStyle(color: Colors.grey[500]),
+                              ),
+                            ],
+                          ),
+                          isThreeLine: true,
+                        );
+                      },
+                    );
+                  },
+                ),
                 Center(child: Text('Page Bookmark')),
               ]),
             )

@@ -22,7 +22,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
         appBar: AppBar(
           title: Text(
             'Surah ${surah.name.transliteration.id}',
-            style: TextStyle(color: appPurpleDark),
+            // style: TextStyle(color: appPurpleDark),
           ),
           centerTitle: true,
         ),

@@ -30,7 +30,7 @@ ThemeData themeDark = ThemeData(
     brightness: Brightness.dark,
     // primaryColor: appPurple,
     scaffoldBackgroundColor: appPurpleDark,
-    appBarTheme: AppBarTheme(elevation: 0, backgroundColor: appWhite),
+    appBarTheme: AppBarTheme(elevation: 0, backgroundColor: appPurpleDark),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
             backgroundColor: appWhite, foregroundColor: appPurple)),
