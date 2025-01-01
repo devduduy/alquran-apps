@@ -1,0 +1,20 @@
+# Abaikan folder build
+build/
+
+# Abaikan file lingkungan virtual
+venv/
+
+# Abaikan file log
+*.log
+
+# Abaikan file konfigurasi rahasia
+.env
+
+# Abaikan file cache
+*.cache
+
+# Abaikan file dart_tool
+*.dart_tool
+
+# Abaikan file idea
+*.idea
