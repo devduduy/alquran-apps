@@ -18,3 +18,8 @@ venv/
 
 # Abaikan file idea
 *.idea
+
+ios/
+linux/
+macos/
+windows/
